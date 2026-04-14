@@ -39,6 +39,8 @@
 		DE628EF42F8585E80038BCEF /* FakeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE628EF32F8585E70038BCEF /* FakeService.swift */; };
 		DE628EF62F8587060038BCEF /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE628EF52F8586FF0038BCEF /* UserViewModel.swift */; };
 		DE628EF82F8588F90038BCEF /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE628EF72F8588F10038BCEF /* UserViewController.swift */; };
+		DED556122F8DCEA0007B2038 /* SelfChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED556112F8DCE9A007B2038 /* SelfChatCell.swift */; };
+		DED556152F8DDD2E007B2038 /* SenderChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED556142F8DDD2B007B2038 /* SenderChatCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +78,8 @@
 		DE628EF32F8585E70038BCEF /* FakeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeService.swift; sourceTree = "<group>"; };
 		DE628EF52F8586FF0038BCEF /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		DE628EF72F8588F10038BCEF /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
+		DED556112F8DCE9A007B2038 /* SelfChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfChatCell.swift; sourceTree = "<group>"; };
+		DED556142F8DDD2B007B2038 /* SenderChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenderChatCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +131,7 @@
 		DE36676B2F8D9B5600D067F5 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				DED556132F8DDCBA007B2038 /* Cells */,
 				DE36676E2F8D9BB300D067F5 /* ChatMessage.swift */,
 				DE3667702F8D9D5400D067F5 /* ChatService.swift */,
 				DE3667722F8D9F8600D067F5 /* ChatViewModel.swift */,
@@ -281,6 +286,15 @@
 			path = CombineExample;
 			sourceTree = "<group>";
 		};
+		DED556132F8DDCBA007B2038 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				DED556142F8DDD2B007B2038 /* SenderChatCell.swift */,
+				DED556112F8DCE9A007B2038 /* SelfChatCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -370,10 +384,12 @@
 				DE628EE42F856CC10038BCEF /* StateViewController.swift in Sources */,
 				DE628ED82F856C000038BCEF /* Bindable.swift in Sources */,
 				DE3667682F8D67E700D067F5 /* ConcurrencyViewController.swift in Sources */,
+				DED556152F8DDD2E007B2038 /* SenderChatCell.swift in Sources */,
 				DE628EBF2F85609C0038BCEF /* HomeViewController.swift in Sources */,
 				DE628EE82F856DA00038BCEF /* NotCombineViewController.swift in Sources */,
 				DE2BAA0B2F85CD64002AEA80 /* UserListViewController.swift in Sources */,
 				DE628ECE2F8565760038BCEF /* ViewCode.swift in Sources */,
+				DED556122F8DCEA0007B2038 /* SelfChatCell.swift in Sources */,
 				DE628EF42F8585E80038BCEF /* FakeService.swift in Sources */,
 				DE36676F2F8D9BBD00D067F5 /* ChatMessage.swift in Sources */,
 				DE628EDE2F856C710038BCEF /* StateService.swift in Sources */,

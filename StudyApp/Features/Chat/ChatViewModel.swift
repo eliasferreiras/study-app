@@ -39,9 +39,7 @@ final class ChatViewModel {
                     break
                 }
             }
-            
             .store(in: &cancellables)
-            
     }
     
     func sendMessage(_ text: String) {

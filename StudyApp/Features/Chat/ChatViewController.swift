@@ -14,6 +14,8 @@ class ChatViewController: UIViewController {
     
     private(set) lazy var tableView: UITableView = {
         let tableView = UITableView()
+        tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -77,12 +79,24 @@ class ChatViewController: UIViewController {
     }
     
     func setupDataSource() {
-        datasource = Datasource(tableView: tableView) {
-            _, _, message in
-            let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
-            
-            cell.textLabel?.text = message.text
-            return cell
+        datasource = Datasource(tableView: tableView) { tableView, indexPath, message in
+            if indexPath.row.isMultiple(of: 2) {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: SelfChatCell.identifier, for: indexPath) as? SelfChatCell else {
+                    return UITableViewCell()
+                }
+                
+                cell.configure(with: message)
+                
+                return cell
+            } else {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: SenderChatCell.identifier, for: indexPath) as? SenderChatCell else {
+                    return UITableViewCell()
+                }
+                
+                cell.configure(with: message)
+                
+                return cell
+            }
         }
     }
     
@@ -108,6 +122,8 @@ class ChatViewController: UIViewController {
 extension ChatViewController: ViewCode {
     func setupViews() {
         view.backgroundColor = .white
+        tableView.register(SelfChatCell.self, forCellReuseIdentifier: SelfChatCell.identifier)
+        tableView.register(SenderChatCell.self, forCellReuseIdentifier: SenderChatCell.identifier)
     }
     
     func setupHierachy() {
@@ -124,8 +140,8 @@ extension ChatViewController: ViewCode {
         NSLayoutConstraint.activate([
             container.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             container.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            container.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            container.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+            container.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            container.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
         ])
     }
 }
