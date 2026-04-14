@@ -7,7 +7,11 @@
 
 import Foundation
 
-struct ChatMessage: Codable, Hashable {
+nonisolated enum ChatSection: Hashable {
+    case main
+}
+
+nonisolated struct ChatMessage: Codable, Hashable  {
     let id: Int
     let text: String
 }

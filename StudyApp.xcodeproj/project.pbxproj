@@ -127,9 +127,9 @@
 		DE36676B2F8D9B5600D067F5 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				DE3667722F8D9F8600D067F5 /* ChatViewModel.swift */,
-				DE3667702F8D9D5400D067F5 /* ChatService.swift */,
 				DE36676E2F8D9BB300D067F5 /* ChatMessage.swift */,
+				DE3667702F8D9D5400D067F5 /* ChatService.swift */,
+				DE3667722F8D9F8600D067F5 /* ChatViewModel.swift */,
 				DE36676C2F8D9B5B00D067F5 /* ChatViewController.swift */,
 			);
 			path = Chat;
@@ -206,12 +206,12 @@
 		DE628EC72F8562390038BCEF /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				DE36676B2F8D9B5600D067F5 /* Chat */,
-				DE3667662F8D67D300D067F5 /* SwiftConcurrency */,
 				DE628ED62F856BEA0038BCEF /* Bindable */,
 				DE628EE52F856D5F0038BCEF /* Combine */,
 				DE628EF02F8585950038BCEF /* CombineExample */,
 				DE2BAA042F85CA73002AEA80 /* DiffableDataSource */,
+				DE3667662F8D67D300D067F5 /* SwiftConcurrency */,
+				DE36676B2F8D9B5600D067F5 /* Chat */,
 			);
 			path = Features;
 			sourceTree = "<group>";

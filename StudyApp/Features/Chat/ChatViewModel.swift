@@ -5,15 +5,16 @@
 //  Created by Elias Ferreira on 13/04/26.
 //
 
+import Combine
 import Foundation
 
 final class ChatViewModel {
     
     private let service = ChatService()
     
-    private(set) var messages: [ChatMessage] = []
+    @Published private(set) var messages: [ChatMessage] = []
     
-    var onUpdate: (() -> Void)?
+    private var cancellables = Set<AnyCancellable>()
     
     init() {
         bind()
@@ -21,23 +22,26 @@ final class ChatViewModel {
     }
     
     private func bind() {
-        service.onMessage = { [weak self] response in
-            guard let self = self else { return }
-            
-            switch response.type {
-            case "INIT":
-                self.messages = response.data ?? []
+        service.messagePublisher
+            .sink() { [weak self] response in
+                guard let self = self else { return }
                 
-            case "NEW_MESSAGE":
-                if let new = response.dataSingle {
-                    self.messages.append(new)
+                switch response.type {
+                case "INIT":
+                    self.messages = response.data ?? []
+                    
+                case "NEW_MESSAGE":
+                    if let new = response.dataSingle {
+                        self.messages.append(new)
+                    }
+                    
+                default:
+                    break
                 }
-                
-            default: break
             }
             
-            self.onUpdate?()
-        }
+            .store(in: &cancellables)
+            
     }
     
     func sendMessage(_ text: String) {

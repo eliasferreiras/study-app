@@ -5,6 +5,7 @@
 //  Created by Elias Ferreira on 13/04/26.
 //
 
+import Combine
 import UIKit
 
 class ChatViewController: UIViewController {
@@ -48,6 +49,12 @@ class ChatViewController: UIViewController {
     
     // MARK: - Properties
     
+    typealias Datasource = UITableViewDiffableDataSource<ChatSection, ChatMessage>
+    
+    private var datasource: Datasource? = nil
+    
+    private var cancellables = Set<AnyCancellable>()
+    
     private let viewModel = ChatViewModel()
     
     // MARK: - Lifecycle
@@ -55,15 +62,37 @@ class ChatViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        setupDataSource()
         bind()
     }
     
     // MARK: - Functions
     
     private func bind() {
-        viewModel.onUpdate = { [weak self] in
-            self?.tableView.reloadData()
+        viewModel.$messages
+            .sink() { [weak self] messages in
+                self?.applySnapshot(messages: messages)
+            }
+            .store(in: &cancellables)
+    }
+    
+    func setupDataSource() {
+        datasource = Datasource(tableView: tableView) {
+            _, _, message in
+            let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+            
+            cell.textLabel?.text = message.text
+            return cell
         }
+    }
+    
+    func applySnapshot(messages: [ChatMessage]) {
+        var snapshot = NSDiffableDataSourceSnapshot<ChatSection, ChatMessage>()
+        
+        snapshot.appendSections([.main])
+        snapshot.appendItems(messages, toSection: .main)
+        
+        datasource?.apply(snapshot, animatingDifferences: true)
     }
     
     // MARK: - Actions
@@ -75,27 +104,10 @@ class ChatViewController: UIViewController {
     }
 }
 
-// MARK: - UITableViewDataSource
-extension ChatViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.messages.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
-        let message = viewModel.messages[indexPath.row]
-        
-        cell.textLabel?.text = message.text
-        
-        return cell
-    }
-}
-
 // MARK: - ViewCode
 extension ChatViewController: ViewCode {
     func setupViews() {
         view.backgroundColor = .white
-        tableView.dataSource = self
     }
     
     func setupHierachy() {

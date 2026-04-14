@@ -5,6 +5,7 @@
 //  Created by Elias Ferreira on 13/04/26.
 //
 
+import Combine
 import Foundation
 
 final class ChatService {
@@ -12,7 +13,8 @@ final class ChatService {
     private var webSocketTask: URLSessionWebSocketTask?
     private let session = URLSession(configuration: .default)
     
-    var onMessage: ((SocketResponse) -> Void)?
+    // Publisher
+    let messagePublisher = PassthroughSubject<SocketResponse, Never>()
     
     // Conectar WebSocket
     
@@ -30,28 +32,35 @@ final class ChatService {
         webSocketTask?.receive { [weak self] result in
             switch result {
             case .failure(let error):
-                print("Error WS:", error)
+                print("Erro WS:", error)
                 
             case .success(let message):
-                switch message {
-                case .string(let text):
-                    self?.handle(text: text)
-                    default : break
-                }
-                
-                // Continua escutando
+                self?.handle(message: message)
                 self?.listen()
             }
         }
     }
     
-    private func handle(text: String) {
-        guard let data = text.data(using: .utf8) else { return }
+    private func handle(message: URLSessionWebSocketTask.Message) {
+        var text: String?
+                
+        switch message {
+        case .string(let str):
+            text = str
+            
+        case .data(let data):
+            text = String(data: data, encoding: .utf8)
+            
+        @unknown default:
+            break
+        }
+        
+        guard let json = text, let data = json.data(using: .utf8) else { return }
         
         do {
             let decoded = try JSONDecoder().decode(SocketResponse.self, from: data)
             DispatchQueue.main.async {
-                self.onMessage?(decoded)
+                self.messagePublisher.send(decoded)
             }
         } catch {
             print("Erro decode:", error)
